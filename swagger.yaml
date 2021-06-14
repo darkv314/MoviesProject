@@ -1,0 +1,44 @@
+
+openapi: 3.0.0
+
+paths:
+  /movies/{movie-id}:
+    get:
+      summary: This endpoint returns a the movie information
+      parameters:
+        - name: movieId
+          in: path
+          required: true
+          description: movie ID
+        # - in: query
+        #   name: date
+        #   schema:
+        #     type: date-time
+        #   description: The dates settled for the movie
+      x-amazon-apigateway-integration:
+        type: "aws_proxy"
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:getMovieInfo/invocations"
+        httpMethod: "POST"
+    put:
+      summary: This endpoint saves a movie
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                movie_id:
+                  type: string
+                title:
+                  type: string
+                main_actor:
+                  type: string
+                year:
+                  type: string
+      x-amazon-apigateway-integration:
+        type: "aws_proxy"
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:putMovieInfo/invocations"
+        httpMethod: "POST"

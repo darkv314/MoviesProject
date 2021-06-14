@@ -1,0 +1,75 @@
+Transform:
+  - AWS::Serverless-2016-10-31
+
+Description: Movie Project Resources
+Resources:
+  GetMovieInfoFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: getMovieInfo
+      Environment:
+        Variables:
+          USERS_TABLE: !Ref MoviesTable
+      Handler: movies.getMovieInfo
+      Runtime: python3.6
+      CodeUri: package/
+      Policies: 
+        - DynamoDBReadPolicy:
+            TableName: !Ref MoviesTable
+      Events:
+        GetMoviesInfo:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MoviesAPI
+            Path: "/movies/{movie_id}"
+            Method: GET
+
+  PutMovieInfoFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: putMoviesInfo
+      Environment:
+        Variables:
+          USERS_TABLE: !Ref MoviesTable
+      Handler: movies.putMovieInfo
+      Runtime: python3.6
+      CodeUri: package/
+      Policies: 
+        - DynamoDBWritePolicy:
+            TableName: !Ref MoviesTable
+      Events:
+        GetUsers:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MoviesAPI
+            Path: "/movies/{movie_Id}"
+            Method: PUT
+
+  MoviesAPI:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: movie-gateway
+      StageName: prod
+      DefinitionBody:
+        Fn::Transform:
+          Name: AWS::Include
+          Parameters:
+            Location: swagger.yaml
+
+  MoviesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: movies-table
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      KeySchema:
+        - AttributeName: pk
+          KeyType: HASH
+        - AttributeName: sk
+          KeyType: RANGE
+      AttributeDefinitions:
+        - AttributeName: pk
+          AttributeType: S
+        - AttributeName: sk
+          AttributeType: S
