@@ -42,3 +42,21 @@ paths:
         uri:
           Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:putMovieInfo/invocations"
         httpMethod: "POST"
+        
+  /movies/{movie_id}/cinemas/{cinema_id}
+    get:
+      summary: This endpoint returns the people that will attend the movie in a specific cinema room
+      parameters:
+        - name: movieId
+          in: path
+          required: true
+          description: movie ID
+        - name: cinemaId
+          in: path
+          required: true
+          description: cinema ID
+      x-amazon-apigateway-integration:
+        type: "aws_proxy"
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:getMoviePeople/invocations"
+        httpMethod: "POST"

@@ -12,7 +12,7 @@ Resources:
             Ref: MoviesTable
       Handler: movies.getMovieInfo
       Runtime: python3.6
-      CodeUri: s3://movie-b/9e99f04db9c359fefefc5a427702a5c3
+      CodeUri: s3://movie-b/027a9df800b18d5518f38939dc79dac9
       Policies:
       - DynamoDBReadPolicy:
           TableName:
@@ -35,7 +35,7 @@ Resources:
             Ref: MoviesTable
       Handler: movies.putMovieInfo
       Runtime: python3.6
-      CodeUri: s3://movie-b/9e99f04db9c359fefefc5a427702a5c3
+      CodeUri: s3://movie-b/027a9df800b18d5518f38939dc79dac9
       Policies:
       - DynamoDBWritePolicy:
           TableName:
@@ -48,6 +48,29 @@ Resources:
               Ref: MoviesAPI
             Path: /movies/{movie_Id}
             Method: PUT
+  GetMoviePeopleFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: getMoviePeople
+      Environment:
+        Variables:
+          USERS_TABLE:
+            Ref: MoviesTable
+      Handler: movies.getMoviePeople
+      Runtime: python3.6
+      CodeUri: s3://movie-b/027a9df800b18d5518f38939dc79dac9
+      Policies:
+      - DynamoDBReadPolicy:
+          TableName:
+            Ref: MoviesTable
+      Events:
+        GetMoviesInfo:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: MoviesAPI
+            Path: /movies/{movie_id}/cinemas/{cinema_id}
+            Method: GET
   MoviesAPI:
     Type: AWS::Serverless::Api
     Properties:
@@ -57,7 +80,7 @@ Resources:
         Fn::Transform:
           Name: AWS::Include
           Parameters:
-            Location: s3://movie-b/bea04db8048151a8375b97feb3357cb5
+            Location: s3://movie-b/6bc024f55e14a2b60eba8385ce25e9c7
   MoviesTable:
     Type: AWS::DynamoDB::Table
     Properties:
