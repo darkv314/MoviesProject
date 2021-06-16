@@ -27,7 +27,7 @@ Resources:
   PutMovieInfoFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: putMoviesInfo
+      FunctionName: putMovieInfo
       Environment:
         Variables:
           USERS_TABLE: !Ref MoviesTable

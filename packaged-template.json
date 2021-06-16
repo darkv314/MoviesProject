@@ -12,7 +12,7 @@ Resources:
             Ref: MoviesTable
       Handler: movies.getMovieInfo
       Runtime: python3.6
-      CodeUri: s3://movie-b/d45270f6a8c388ffb3e866f46fe21527
+      CodeUri: s3://movie-b/9e99f04db9c359fefefc5a427702a5c3
       Policies:
       - DynamoDBReadPolicy:
           TableName:
@@ -28,14 +28,14 @@ Resources:
   PutMovieInfoFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: putMoviesInfo
+      FunctionName: putMovieInfo
       Environment:
         Variables:
           USERS_TABLE:
             Ref: MoviesTable
       Handler: movies.putMovieInfo
       Runtime: python3.6
-      CodeUri: s3://movie-b/d45270f6a8c388ffb3e866f46fe21527
+      CodeUri: s3://movie-b/9e99f04db9c359fefefc5a427702a5c3
       Policies:
       - DynamoDBWritePolicy:
           TableName:
@@ -57,7 +57,7 @@ Resources:
         Fn::Transform:
           Name: AWS::Include
           Parameters:
-            Location: s3://movie-b/76df36e973b6a678cae770931d29c5c2
+            Location: s3://movie-b/bea04db8048151a8375b97feb3357cb5
   MoviesTable:
     Type: AWS::DynamoDB::Table
     Properties:

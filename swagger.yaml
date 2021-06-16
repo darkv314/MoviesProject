@@ -10,11 +10,11 @@ paths:
           in: path
           required: true
           description: movie ID
-        # - in: query
-        #   name: date
-        #   schema:
-        #     type: date-time
-        #   description: The dates settled for the movie
+        - in: query
+          name: date
+          schema:
+            type: string
+          description: The dates settled for the movie
       x-amazon-apigateway-integration:
         type: "aws_proxy"
         uri:
