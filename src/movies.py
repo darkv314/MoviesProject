@@ -109,3 +109,27 @@ def putPeopleOnMovie(event, context):
         'statusCode': 200,
         'body': json.dumps('People on movie record saved!')
     }
+    
+def getCinemaInfo(event, context):
+    return {
+        'statusCode': 200,
+        'body': json.dumps('gci w')
+    }
+    
+def putCinemaInfo(event, context):
+    return {
+        'statusCode': 200,
+        'body': json.dumps('pci w')
+    }
+    
+def getPersonInfo(event, context):
+    return {
+        'statusCode': 200,
+        'body': json.dumps('gpi w')
+    }
+    
+def putPersonInfo(event, context):
+    return {
+        'statusCode': 200,
+        'body': json.dumps('ppi w')
+    }
