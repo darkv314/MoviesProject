@@ -46,7 +46,7 @@ Resources:
           Properties:
             RestApiId:
               Ref: MoviesAPI
-            Path: /movies/{movie_Id}
+            Path: /movies/{movie_id}
             Method: PUT
   GetMoviePeopleFunction:
     Type: AWS::Serverless::Function
@@ -69,7 +69,7 @@ Resources:
           Properties:
             RestApiId:
               Ref: MoviesAPI
-            Path: /movies/{movie_id}/cinemas/{cinema_id}
+            Path: /movies/{movie-id}/cinemas/{cinema-id}
             Method: GET
   MoviesAPI:
     Type: AWS::Serverless::Api
@@ -80,7 +80,7 @@ Resources:
         Fn::Transform:
           Name: AWS::Include
           Parameters:
-            Location: s3://movie-b/6bc024f55e14a2b60eba8385ce25e9c7
+            Location: s3://movie-b/d23a7bffe565eadd760c0973260c0d94
   MoviesTable:
     Type: AWS::DynamoDB::Table
     Properties:

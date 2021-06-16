@@ -74,8 +74,38 @@ def putMovieInfo(event, context):
             'statusCode': 200,
             'body': json.dumps('Movie date and schedule saved!')
         }
+        
 def getMoviePeople(event, context):
+    path = event['path']
+    movie_id = path.split("/")[-3]
+    cinema_id = path.split("/")[-1]
+    response = table.query(
+        KeyConditionExpression=Key('pk').eq(movie_id+cinema_id))
+    items = response['Items']
     return {
-            'statusCode': 200,
-            'body': json.dumps('Function Working')
+        'statusCode': 200,
+        'body': json.dumps(items)
         }
+
+def putPeopleOnMovie(event, context):
+    path = event['path']
+    movie_id = path.split("/")[-3]
+    cinema_id = path.split("/")[-1]
+    body = json.loads(event['body'])
+    pk = movie_id + cinema_id;
+    if not pk in records:
+        records[pk] = 1;
+    else:
+        records[pk] += 1;
+    table.put_item(
+          Item={
+                'pk': pk,
+                'sk': 'person_'+records[pk],
+                'name': body["name"],
+                'ci': body["ci"]
+            }
+        )
+    return {
+        'statusCode': 200,
+        'body': json.dumps('People on movie record saved!')
+    }
